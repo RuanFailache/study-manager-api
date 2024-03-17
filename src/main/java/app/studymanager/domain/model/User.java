@@ -1,5 +1,6 @@
 package app.studymanager.domain.model;
 
+import app.studymanager.domain.event.CreatedUserEvent;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,4 +43,12 @@ public class User extends AbstractAggregateRoot<User> {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime updatedAt;
+
+    public void create(String email) {
+        setEmail(email);
+        setIsActive(false);
+        setType(UserType.BASIC);
+
+        registerEvent(new CreatedUserEvent(this));
+    }
 }

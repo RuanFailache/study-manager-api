@@ -37,4 +37,11 @@ public class UserHistory extends AbstractAggregateRoot<UserHistory> {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime createdAt;
+
+    public void insert(User user, String responsible, String description) {
+        setUser(user);
+        setType(user.getType());
+        setDescription(description);
+        setResponsible(responsible);
+    }
 }
