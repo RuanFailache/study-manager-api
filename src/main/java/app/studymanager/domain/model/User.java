@@ -28,8 +28,9 @@ public class User extends AbstractAggregateRoot<User> {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -62,7 +63,7 @@ public class User extends AbstractAggregateRoot<User> {
 
     public void create(String email) {
         setEmail(email);
-        setIsActive(false);
+        setStatus(UserStatus.NEW);
         setType(UserType.BASIC);
     }
 }

@@ -26,6 +26,10 @@ public class UserHistory {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @Column(name = "user_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     @Column(name = "responsible", nullable = false)
     private String responsible;
 
@@ -40,6 +44,7 @@ public class UserHistory {
     public void insert(User user, String responsible, String description) {
         setUser(user);
         setType(user.getType());
+        setStatus(user.getStatus());
         setDescription(description);
         setResponsible(responsible);
     }

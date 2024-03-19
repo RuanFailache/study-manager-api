@@ -37,6 +37,6 @@ public class UserValidationCode {
     public void create(User user, String code) {
         setCode(code);
         setUser(user);
-        setExpiresAt(OffsetDateTime.now().plusDays(1));
+        setExpiresAt(OffsetDateTime.now().plusMinutes(5));
     }
 }
