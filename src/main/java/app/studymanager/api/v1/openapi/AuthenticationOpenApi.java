@@ -10,14 +10,11 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "Authentication")
 public interface AuthenticationOpenApi {
     @Operation(
-            summary = "If the user not exists create an user and send an validation code",
+            summary = "Send an validation code and, if the user not exists, create one",
             responses = {
-                    @ApiResponse(responseCode = "204", description = "Validation code sent with success"),
+                    @ApiResponse(responseCode = "201", description = "Validation code sent with success"),
                     @ApiResponse(responseCode = "400", description = "Sent email is invalid"),
             }
     )
-    ResponseEntity<Void> sendValidationCode(
-            @RequestBody(description = "Has the email to be sent the validation code", required = true)
-            AskValidationCodeRequestDto dto
-    );
+    ResponseEntity<Void> sendValidationCode(@RequestBody(required = true) AskValidationCodeRequestDto dto);
 }

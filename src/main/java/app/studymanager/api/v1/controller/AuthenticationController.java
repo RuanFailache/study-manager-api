@@ -5,6 +5,7 @@ import app.studymanager.api.v1.openapi.AuthenticationOpenApi;
 import app.studymanager.domain.model.User;
 import app.studymanager.domain.service.TokenGeneratorService;
 import app.studymanager.domain.service.UserService;
+import app.studymanager.domain.service.UserValidationCodeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("v1/authentication")
 public class AuthenticationController implements AuthenticationOpenApi {
     private final UserService userService;
+    private final UserValidationCodeService userValidationCodeService;
     private final TokenGeneratorService tokenGeneratorService;
 
-    public AuthenticationController(UserService userService, TokenGeneratorService tokenGeneratorService) {
+    public AuthenticationController(UserService userService, UserValidationCodeService userValidationCodeService, TokenGeneratorService tokenGeneratorService) {
         this.userService = userService;
+        this.userValidationCodeService = userValidationCodeService;
         this.tokenGeneratorService = tokenGeneratorService;
     }
 
@@ -28,7 +31,7 @@ public class AuthenticationController implements AuthenticationOpenApi {
     public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDto dto) {
         User user = userService.findByEmailOrCreate(dto.getEmail());
         String validationCode = tokenGeneratorService.generateValidationCode();
-        userService.createValidationCode(user, validationCode);
+        userValidationCodeService.create(user, validationCode);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
