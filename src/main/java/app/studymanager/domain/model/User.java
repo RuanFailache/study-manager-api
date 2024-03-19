@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
@@ -43,6 +44,18 @@ public class User extends AbstractAggregateRoot<User> {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserHistory> users;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserSession> sessions;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserSubject> subjects;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserValidationCode> validationCodes;
 
     public void create(String email) {
         setEmail(email);

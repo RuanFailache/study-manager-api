@@ -8,10 +8,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.OffsetDateTime;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "tab_user_subjects")
-public class UserSubjects {
+public class UserSubject {
     @Id
     @EqualsAndHashCode.Include
     @Column(name = "id_user_subject", nullable = false)

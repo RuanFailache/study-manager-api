@@ -4,15 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.OffsetDateTime;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "tab_study_days_history")
-public class StudyDayHistory extends AbstractAggregateRoot<StudyDayHistory> {
+public class StudyDayHistory {
     @Id
     @EqualsAndHashCode.Include
     @Column(name = "id_study_day_history", nullable = false)

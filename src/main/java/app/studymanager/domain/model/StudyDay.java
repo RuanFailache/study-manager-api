@@ -21,12 +21,6 @@ public class StudyDay extends AbstractAggregateRoot<StudyDay> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "studyDay")
-    private Set<StudyDaySubject> subjects;
-
-    @OneToMany(mappedBy = "studyDay")
-    private Set<StudyDayUser> users;
-
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -47,4 +41,13 @@ public class StudyDay extends AbstractAggregateRoot<StudyDay> {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime updatedAt;
+
+    @OneToMany(mappedBy = "studyDay")
+    private Set<StudyDaySubject> subjects;
+
+    @OneToMany(mappedBy = "studyDay")
+    private Set<StudyDayUser> users;
+
+    @OneToMany(mappedBy = "studyDay")
+    private Set<StudyDayHistory> histories;
 }
