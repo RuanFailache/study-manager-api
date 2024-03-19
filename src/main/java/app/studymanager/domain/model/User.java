@@ -1,6 +1,5 @@
 package app.studymanager.domain.model;
 
-import app.studymanager.domain.event.CreatedUserEvent;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,6 +48,9 @@ public class User extends AbstractAggregateRoot<User> {
     private Set<UserHistory> users;
 
     @OneToMany(mappedBy = "user")
+    private Set<UserHistory> histories;
+
+    @OneToMany(mappedBy = "user")
     private Set<UserSession> sessions;
 
     @OneToMany(mappedBy = "user")
@@ -61,7 +63,11 @@ public class User extends AbstractAggregateRoot<User> {
         setEmail(email);
         setIsActive(false);
         setType(UserType.BASIC);
+    }
 
-        registerEvent(new CreatedUserEvent(this));
+    public void addHistory(String responsible, String message) {
+        UserHistory history = new UserHistory();
+        history.insert(this, responsible, message);
+        histories.add(history);
     }
 }

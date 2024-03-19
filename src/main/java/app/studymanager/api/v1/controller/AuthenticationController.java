@@ -22,7 +22,7 @@ public class AuthenticationController implements AuthenticationOpenApi {
 
     @PostMapping
     public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDto dto) {
-        User user = userService.findOrCreateByEmail(dto.getEmail());
+        User user = userService.findByEmailOrCreate(dto.getEmail());
         return null;
     }
 }
