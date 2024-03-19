@@ -33,4 +33,10 @@ public class UserValidationCode {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime createdAt;
+
+    public void create(User user, String code) {
+        setCode(code);
+        setUser(user);
+        setExpiresAt(OffsetDateTime.now().plusDays(1));
+    }
 }

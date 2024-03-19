@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -43,11 +44,11 @@ public class StudyDay extends AbstractAggregateRoot<StudyDay> {
     private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "studyDay")
-    private Set<StudyDaySubject> subjects;
+    private Set<StudyDaySubject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "studyDay")
-    private Set<StudyDayUser> users;
+    private Set<StudyDayUser> users = new HashSet<>();
 
     @OneToMany(mappedBy = "studyDay")
-    private Set<StudyDayHistory> histories;
+    private Set<StudyDayHistory> histories = new HashSet<>();
 }
