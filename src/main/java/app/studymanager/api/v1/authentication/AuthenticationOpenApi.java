@@ -1,6 +1,6 @@
-package app.studymanager.api.v1.openapi;
+package app.studymanager.api.v1.authentication;
 
-import app.studymanager.api.v1.dto.request.AskValidationCodeRequestDto;
+import app.studymanager.api.v1.authentication.dto.request.AskValidationCodeRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

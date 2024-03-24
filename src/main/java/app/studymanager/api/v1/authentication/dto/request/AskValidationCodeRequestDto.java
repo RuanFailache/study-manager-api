@@ -1,4 +1,4 @@
-package app.studymanager.api.v1.dto.request;
+package app.studymanager.api.v1.authentication.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
