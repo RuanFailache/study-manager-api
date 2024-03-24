@@ -2,10 +2,10 @@ package app.studymanager.api.v1.controller;
 
 import app.studymanager.api.v1.dto.request.AskValidationCodeRequestDto;
 import app.studymanager.api.v1.openapi.AuthenticationOpenApi;
-import app.studymanager.domain.model.User;
-import app.studymanager.domain.service.TokenGeneratorService;
-import app.studymanager.domain.service.UserService;
-import app.studymanager.domain.service.UserValidationCodeService;
+import app.studymanager.modules.user.model.User;
+import app.studymanager.shared.service.TokenGeneratorService;
+import app.studymanager.modules.user.service.UserService;
+import app.studymanager.modules.user.service.UserValidationCodeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
