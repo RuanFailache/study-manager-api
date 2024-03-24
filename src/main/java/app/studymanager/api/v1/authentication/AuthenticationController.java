@@ -1,10 +1,9 @@
 package app.studymanager.api.v1.authentication;
 
 import app.studymanager.api.v1.authentication.dto.request.AskValidationCodeRequestDto;
-import app.studymanager.modules.user.model.User;
-import app.studymanager.shared.service.tokengenerator.TokenGeneratorService;
-import app.studymanager.modules.user.service.user.UserService;
-import app.studymanager.modules.user.service.uservalidationcode.UserValidationCodeService;
+import app.studymanager.modules.user.User;
+import app.studymanager.modules.user.UserService;
+import app.studymanager.modules.user.validationcode.UserValidationCodeService;
 import app.studymanager.shared.util.ExceptionUtil;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -23,25 +22,21 @@ public class AuthenticationController implements AuthenticationOpenApi {
 
     private final UserService userService;
     private final UserValidationCodeService userValidationCodeService;
-    private final TokenGeneratorService tokenGeneratorService;
 
     public AuthenticationController(
             UserService userService,
-            UserValidationCodeService userValidationCodeService,
-            TokenGeneratorService tokenGeneratorService
+            UserValidationCodeService userValidationCodeService
     ) {
         this.userService = userService;
         this.userValidationCodeService = userValidationCodeService;
-        this.tokenGeneratorService = tokenGeneratorService;
     }
 
     @PostMapping
     public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDto dto) {
         logger.info(AuthenticationLogger.SEND_VALIDATION_CODE);
         try {
-            User user = userService.findByEmailOrCreate(dto.getEmail());
-            String validationCode = tokenGeneratorService.generateValidationCode();
-            userValidationCodeService.create(user, validationCode);
+            User user = userService.findOrCreateByEmail(dto.getEmail());
+            userValidationCodeService.create(user);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception exception) {
             logger.error(AuthenticationLogger.SEND_VALIDATION_CODE_ERROR);
