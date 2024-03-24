@@ -18,7 +18,7 @@ public class Subject extends AbstractAggregateRoot<Subject> {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_subject_level", nullable = false)
+    @JoinColumn(name = "id_subjects_level", nullable = false)
     private SubjectLevel level;
 
     @Column(name = "name", nullable = false)

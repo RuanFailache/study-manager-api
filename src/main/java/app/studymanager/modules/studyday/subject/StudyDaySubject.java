@@ -12,11 +12,11 @@ import java.time.OffsetDateTime;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tab_study_day_subjects")
+@Table(name = "tab_study_days_subjects")
 public class StudyDaySubject {
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "id_study_day_subject", nullable = false)
+    @Column(name = "id_study_days_subject", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -27,7 +27,7 @@ public class StudyDay extends AbstractAggregateRoot<StudyDay> {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_study_day_status", nullable = false)
+    @JoinColumn(name = "id_study_days_status", nullable = false)
     private StudyDayStatus status;
 
     @Column(name = "name", nullable = false)

@@ -7,11 +7,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tab_study_day_status")
+@Table(name = "tab_study_days_status")
 public class StudyDayStatus {
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "id_study_day_status", nullable = false)
+    @Column(name = "id_study_days_status", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

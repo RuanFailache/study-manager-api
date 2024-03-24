@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 public class UserHistory {
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "id_user_history", nullable = false)
+    @Column(name = "id_users_history", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -26,11 +26,11 @@ public class UserHistory {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id_user_status", nullable = false)
+    @JoinColumn(name = "id_users_status", nullable = false)
     private UserStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "id_user_type", nullable = false)
+    @JoinColumn(name = "id_users_type", nullable = false)
     private UserType type;
 
     @Column(name = "responsible", nullable = false)

@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 public class StudyDayHistory {
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "id_study_day_history", nullable = false)
+    @Column(name = "id_study_days_history", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,7 +25,7 @@ public class StudyDayHistory {
     private StudyDay studyDay;
 
     @ManyToOne
-    @JoinColumn(name = "id_study_day_status", nullable = false)
+    @JoinColumn(name = "id_study_days_status", nullable = false)
     private StudyDayStatus status;
 
     @Column(name = "responsible", nullable = false)
