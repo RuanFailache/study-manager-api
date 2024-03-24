@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class AskValidationCodeRequestDto {
+public class AskValidationCodeRequestDTO {
     @NotBlank
     @Email
     @Schema(defaultValue = "user.name@host.com")

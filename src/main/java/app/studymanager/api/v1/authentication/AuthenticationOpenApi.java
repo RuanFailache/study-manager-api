@@ -1,6 +1,6 @@
 package app.studymanager.api.v1.authentication;
 
-import app.studymanager.api.v1.authentication.dto.request.AskValidationCodeRequestDto;
+import app.studymanager.api.v1.authentication.dto.request.AskValidationCodeRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,5 +16,5 @@ public interface AuthenticationOpenApi {
                     @ApiResponse(responseCode = "400", description = "Sent email is invalid"),
             }
     )
-    ResponseEntity<Void> sendValidationCode(@RequestBody(required = true) AskValidationCodeRequestDto dto);
+    ResponseEntity<Void> sendValidationCode(@RequestBody(required = true) AskValidationCodeRequestDTO dto);
 }

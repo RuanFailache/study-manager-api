@@ -1,6 +1,6 @@
 package app.studymanager.api.v1.authentication;
 
-import app.studymanager.api.v1.authentication.dto.request.AskValidationCodeRequestDto;
+import app.studymanager.api.v1.authentication.dto.request.AskValidationCodeRequestDTO;
 import app.studymanager.modules.user.User;
 import app.studymanager.modules.user.UserService;
 import app.studymanager.modules.user.validationcode.UserValidationCodeService;
@@ -32,7 +32,7 @@ public class AuthenticationController implements AuthenticationOpenApi {
     }
 
     @PostMapping
-    public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDto dto) {
+    public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDTO dto) {
         logger.info(AuthenticationLogger.SEND_VALIDATION_CODE);
         try {
             User user = userService.findOrCreateByEmail(dto.getEmail());
