@@ -20,6 +20,7 @@
 		<java.version>17</java.version>
 		<springdoc.version>2.4.0</springdoc.version>
 		<sendgrid.version>4.7.2</sendgrid.version>
+		<faker.version>1.0.2</faker.version>
 	</properties>
 
 	<dependencies>
@@ -71,6 +72,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>${faker.version}</version>
 			<scope>test</scope>
 		</dependency>
 
