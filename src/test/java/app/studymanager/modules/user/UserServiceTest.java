@@ -58,7 +58,7 @@ public class UserServiceTest {
         String testEmail = faker.internet().emailAddress();
 
         doReturn(null).when(userRepository).findByEmail(testEmail);
-        doReturn(any(User.class)).when(userFactory).create(anyString());
+        doReturn(expectedResult).when(userFactory).create(anyString());
         doReturn(expectedResult).when(userRepository).save(any(User.class));
 
         var result = sut.findOrCreateByEmail(testEmail);
