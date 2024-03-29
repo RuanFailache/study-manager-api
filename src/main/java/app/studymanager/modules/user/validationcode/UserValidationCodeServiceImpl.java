@@ -37,7 +37,6 @@ public class UserValidationCodeServiceImpl implements UserValidationCodeService 
             userHistoryService.insert(user, HistoryResponsible.SYSTEM, UserHistoryMessage.CREATE_VALIDATION_CODE);
             return validationCode;
         } catch (Exception exception) {
-            logger.error(UserValidationCodeLogger.CREATE_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserValidationCodeLogger.CREATE_ERROR);
         }
     }

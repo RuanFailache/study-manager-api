@@ -29,7 +29,6 @@ public class UserStatusServiceImpl implements UserStatusService {
 
             return foundStatus;
         } catch (Exception exception) {
-            logger.error(UserStatusLogger.FIND_OR_THROW_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserStatusLogger.FIND_OR_THROW_ERROR);
         }
     }

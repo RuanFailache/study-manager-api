@@ -29,7 +29,6 @@ public class UserTypeServiceImpl implements UserTypeService {
 
             return foundType;
         } catch (Exception exception) {
-            logger.error(UserTypeLogger.FIND_OR_THROW_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserTypeLogger.FIND_OR_THROW_ERROR);
         }
     }

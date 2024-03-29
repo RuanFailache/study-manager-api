@@ -18,7 +18,6 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
             long codeAsNumber = random.nextLong(999999);
             return String.valueOf(codeAsNumber);
         } catch (Exception exception) {
-            logger.error(TokenGeneratorLogger.GENERATE_VALIDATION_CODE_ERROR, exception);
             throw ExceptionUtil.handle(exception, TokenGeneratorLogger.GENERATE_VALIDATION_CODE_ERROR);
         }
     }

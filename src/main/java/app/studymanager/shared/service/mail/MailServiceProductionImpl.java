@@ -44,7 +44,6 @@ public class MailServiceProductionImpl implements MailService {
             Content content = new Content("text/html", text);
             sendMail(new Mail(from, subject, toEmail, content));
         } catch (Exception exception) {
-            logger.error(MailLogger.CONFIGURE_MAIL_ERROR, exception);
             throw ExceptionUtil.handle(exception, MailLogger.CONFIGURE_MAIL_ERROR);
         }
     }
@@ -65,10 +64,7 @@ public class MailServiceProductionImpl implements MailService {
                 throw new InternalServerErrorException(MailLogger.SEND_MAIL_ERROR);
             }
         } catch (Exception exception) {
-            logger.error(MailLogger.SEND_MAIL_ERROR, exception);
             throw ExceptionUtil.handle(exception, MailLogger.SEND_MAIL_ERROR);
         }
     }
-
-
 }

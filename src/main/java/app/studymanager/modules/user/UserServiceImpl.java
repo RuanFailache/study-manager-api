@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
 
             return foundUser;
         } catch (Exception exception) {
-            logger.error(UserLogger.FIND_BY_EMAIL_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserLogger.FIND_BY_EMAIL_ERROR);
         }
     }
@@ -55,7 +54,6 @@ public class UserServiceImpl implements UserService {
             userHistoryService.insert(savedUser, HistoryResponsible.SYSTEM, UserHistoryMessage.CREATE_USER);
             return savedUser;
         } catch (Exception exception) {
-            logger.error(UserLogger.CREATE_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserLogger.CREATE_ERROR);
         }
     }

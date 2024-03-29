@@ -25,7 +25,6 @@ public class UserHistoryServiceImpl implements UserHistoryService {
             history.insert(user, responsible, message);
             userHistoryRepository.save(history);
         } catch (Exception exception) {
-            logger.error(UserHistoryLogger.INSERT_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserHistoryLogger.INSERT_ERROR);
         }
     }

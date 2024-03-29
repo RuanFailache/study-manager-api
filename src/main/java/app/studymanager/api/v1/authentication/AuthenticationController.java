@@ -46,7 +46,6 @@ public class AuthenticationController implements AuthenticationOpenApi {
             mailService.sendValidationCode(user.getEmail(), userValidationCode.getCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception exception) {
-            logger.error(AuthenticationLogger.SEND_VALIDATION_CODE_ERROR, exception);
             throw ExceptionUtil.handle(exception, AuthenticationLogger.SEND_VALIDATION_CODE_ERROR);
         }
     }
