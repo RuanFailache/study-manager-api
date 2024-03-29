@@ -1,9 +1,5 @@
-package app.studymanager.modules.user;
+package app.studymanager.modules.user.type;
 
-import app.studymanager.modules.user.type.UserType;
-import app.studymanager.modules.user.type.UserTypeEnum;
-import app.studymanager.modules.user.type.UserTypeRepository;
-import app.studymanager.modules.user.type.UserTypeServiceImpl;
 import app.studymanager.shared.exception.InternalServerErrorException;
 import app.studymanager.shared.exception.NotFoundException;
 import app.studymanager.utils.SimulatedException;

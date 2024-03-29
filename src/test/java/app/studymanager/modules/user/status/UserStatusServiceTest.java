@@ -1,9 +1,5 @@
-package app.studymanager.modules.user;
+package app.studymanager.modules.user.status;
 
-import app.studymanager.modules.user.status.UserStatus;
-import app.studymanager.modules.user.status.UserStatusEnum;
-import app.studymanager.modules.user.status.UserStatusRepository;
-import app.studymanager.modules.user.status.UserStatusServiceImpl;
 import app.studymanager.shared.exception.InternalServerErrorException;
 import app.studymanager.shared.exception.NotFoundException;
 import app.studymanager.utils.SimulatedException;
