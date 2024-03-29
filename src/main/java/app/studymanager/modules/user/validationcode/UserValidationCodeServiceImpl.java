@@ -6,31 +6,23 @@ import app.studymanager.modules.user.history.UserHistoryService;
 import app.studymanager.shared.constants.HistoryResponsible;
 import app.studymanager.shared.util.ExceptionUtil;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserValidationCodeServiceImpl implements UserValidationCodeService {
-    private static final Logger logger = LoggerFactory.getLogger(UserValidationCodeService.class);
-
     private final UserHistoryService userHistoryService;
-    private final UserValidationCodeRepository userValidationCodeRepository;
-    private final UserValidationCodeFactory userValidationCodeFactory;
 
-    public UserValidationCodeServiceImpl(
-            UserHistoryService userHistoryService,
-            UserValidationCodeRepository userValidationCodeRepository,
-            UserValidationCodeFactory userValidationCodeFactory
-    ) {
-        this.userHistoryService = userHistoryService;
-        this.userValidationCodeRepository = userValidationCodeRepository;
-        this.userValidationCodeFactory = userValidationCodeFactory;
-    }
+    private final UserValidationCodeRepository userValidationCodeRepository;
+
+    private final UserValidationCodeFactory userValidationCodeFactory;
 
     @Transactional
     public UserValidationCode create(User user) {
-        logger.info(UserValidationCodeLogger.CREATE);
+        log.info(UserValidationCodeLogger.CREATE);
         try {
             UserValidationCode validationCode = userValidationCodeFactory.create(user);
             userValidationCodeRepository.save(validationCode);

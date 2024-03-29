@@ -2,24 +2,20 @@ package app.studymanager.modules.user.status;
 
 import app.studymanager.shared.exception.NotFoundException;
 import app.studymanager.shared.util.ExceptionUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserStatusServiceImpl implements UserStatusService {
-    private static final Logger logger = LoggerFactory.getLogger(UserStatusService.class);
-
     private final UserStatusRepository userStatusRepository;
 
-    public UserStatusServiceImpl(UserStatusRepository userStatusRepository) {
-        this.userStatusRepository = userStatusRepository;
-    }
-
     public UserStatus findOrThrow(UserStatusEnum status) {
-        logger.info(UserStatusLogger.FIND_OR_THROW);
+        log.info(UserStatusLogger.FIND_OR_THROW);
         try {
             var foundStatus = userStatusRepository.findByStatus(status);
 

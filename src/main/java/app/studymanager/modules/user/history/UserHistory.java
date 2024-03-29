@@ -1,8 +1,8 @@
 package app.studymanager.modules.user.history;
 
-import app.studymanager.modules.user.type.UserType;
-import app.studymanager.modules.user.status.UserStatus;
 import app.studymanager.modules.user.User;
+import app.studymanager.modules.user.status.UserStatus;
+import app.studymanager.modules.user.type.UserType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,12 +43,4 @@ public class UserHistory {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime createdAt;
-
-    public void insert(User user, String responsible, String description) {
-        setUser(user);
-        setType(user.getType());
-        setStatus(user.getStatus());
-        setDescription(description);
-        setResponsible(responsible);
-    }
 }

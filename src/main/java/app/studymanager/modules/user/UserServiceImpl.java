@@ -5,33 +5,25 @@ import app.studymanager.modules.user.history.UserHistoryService;
 import app.studymanager.shared.constants.HistoryResponsible;
 import app.studymanager.shared.util.ExceptionUtil;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.nonNull;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
     private final UserRepository userRepository;
-    private final UserHistoryService userHistoryService;
-    private final UserFactory userFactory;
 
-    public UserServiceImpl(
-            UserRepository userRepository,
-            UserHistoryService userHistoryService,
-            UserFactory userFactory
-    ) {
-        this.userRepository = userRepository;
-        this.userHistoryService = userHistoryService;
-        this.userFactory = userFactory;
-    }
+    private final UserHistoryService userHistoryService;
+
+    private final UserFactory userFactory;
 
     @Transactional
     public User findOrCreateByEmail(String email) {
-        logger.info(UserLogger.FIND_BY_EMAIL);
+        log.info(UserLogger.FIND_BY_EMAIL);
         try {
             User foundUser = userRepository.findByEmail(email);
             return nonNull(foundUser) ? foundUser : this.create(email);
@@ -42,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User create(String email) {
-        logger.info(UserLogger.CREATE);
+        log.info(UserLogger.CREATE);
         try {
             User createdUser = userFactory.create(email);
             User savedUser = userRepository.save(createdUser);

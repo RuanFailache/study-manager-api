@@ -2,24 +2,20 @@ package app.studymanager.modules.user.type;
 
 import app.studymanager.shared.exception.NotFoundException;
 import app.studymanager.shared.util.ExceptionUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserTypeServiceImpl implements UserTypeService {
-    private static final Logger logger = LoggerFactory.getLogger(UserTypeService.class);
-
     private final UserTypeRepository userTypeRepository;
 
-    public UserTypeServiceImpl(UserTypeRepository userTypeRepository) {
-        this.userTypeRepository = userTypeRepository;
-    }
-
     public UserType findOrThrow(UserTypeEnum type) {
-        logger.info(UserTypeLogger.FIND_OR_THROW);
+        log.info(UserTypeLogger.FIND_OR_THROW);
         try {
             var foundType = userTypeRepository.findByType(type);
 
