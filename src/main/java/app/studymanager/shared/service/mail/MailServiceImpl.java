@@ -21,13 +21,14 @@ import java.io.IOException;
 public class MailServiceImpl implements MailService {
     private final MailProperties properties;
 
+    private final SendGrid sendGrid;
+
     public void send(String to, String subject, String text) {
         log.info(MailLogger.SEND_MAIL);
         try {
             Mail mail = getMail(to, subject, text);
             Request request = getRequest(mail);
-
-            Response response = new SendGrid(properties.getApikey()).api(request);
+            Response response = sendGrid.api(request);
 
             if (response.getStatusCode() < 200 || response.getStatusCode() >= 300) {
                 throw new InternalServerErrorException(MailLogger.SEND_MAIL_ERROR);
