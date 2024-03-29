@@ -4,9 +4,9 @@ import app.studymanager.modules.user.type.UserType;
 import app.studymanager.modules.user.type.UserTypeEnum;
 import app.studymanager.modules.user.type.UserTypeRepository;
 import app.studymanager.modules.user.type.UserTypeServiceImpl;
+import app.studymanager.shared.exception.InternalServerErrorException;
 import app.studymanager.shared.exception.NotFoundException;
-import com.github.javafaker.Faker;
-import org.junit.jupiter.api.BeforeEach;
+import app.studymanager.utils.SimulatedException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 public class UserTypeServiceTest {
@@ -42,5 +43,12 @@ public class UserTypeServiceTest {
         doReturn(null).when(userTypeRepository).findByType(any(UserTypeEnum.class));
 
         assertThrows(NotFoundException.class, () -> sut.findOrThrow(UserTypeEnum.BASIC));
+    }
+
+    @Test
+    public void testFindOrThrowWhenThrowsException() {
+        doThrow(new SimulatedException()).when(userTypeRepository).findByType(any(UserTypeEnum.class));
+
+        assertThrows(InternalServerErrorException.class, () -> sut.findOrThrow(UserTypeEnum.BASIC));
     }
 }

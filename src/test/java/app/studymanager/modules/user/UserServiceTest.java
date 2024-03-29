@@ -1,6 +1,8 @@
 package app.studymanager.modules.user;
 
 import app.studymanager.modules.user.history.UserHistoryService;
+import app.studymanager.shared.exception.InternalServerErrorException;
+import app.studymanager.utils.SimulatedException;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,11 +11,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -52,6 +54,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testCreateWhenThrowsException() {
+        doThrow(new SimulatedException()).when(userFactory).create(anyString());
+
+        assertThrows(InternalServerErrorException.class, () -> sut.create(anyString()));
+    }
+
+    @Test
     public void testFindOrCreateByEmailWhenUserNotFound() {
         var expectedResult = new User();
 
@@ -78,5 +87,12 @@ public class UserServiceTest {
         User result = sut.findOrCreateByEmail(testEmail);
 
         assertEquals(expectedUser, result);
+    }
+
+    @Test
+    public void testFindOrCreateByEmailWhenThrowsException() {
+        doThrow(new SimulatedException()).when(userRepository).findByEmail(anyString());
+
+        assertThrows(InternalServerErrorException.class, () -> sut.findOrCreateByEmail(anyString()));
     }
 }

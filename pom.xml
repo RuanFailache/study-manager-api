@@ -21,6 +21,7 @@
 		<springdoc.version>2.4.0</springdoc.version>
 		<sendgrid.version>4.7.2</sendgrid.version>
 		<faker.version>1.0.2</faker.version>
+		<jacoco.version>0.8.7</jacoco.version>
 	</properties>
 
 	<dependencies>
@@ -108,6 +109,26 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
