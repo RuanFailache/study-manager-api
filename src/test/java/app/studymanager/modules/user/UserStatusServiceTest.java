@@ -4,10 +4,6 @@ import app.studymanager.modules.user.status.UserStatus;
 import app.studymanager.modules.user.status.UserStatusEnum;
 import app.studymanager.modules.user.status.UserStatusRepository;
 import app.studymanager.modules.user.status.UserStatusServiceImpl;
-import app.studymanager.modules.user.type.UserType;
-import app.studymanager.modules.user.type.UserTypeEnum;
-import app.studymanager.modules.user.type.UserTypeRepository;
-import app.studymanager.modules.user.type.UserTypeServiceImpl;
 import app.studymanager.shared.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +24,7 @@ public class UserStatusServiceTest {
     private UserStatusRepository userStatusRepository;
 
     @Test
-    public void testFindOrThrowWhenTypeFound() {
+    public void testFindOrThrowWhenStatusFound() {
         var expectedResult = new UserStatus();
 
         doReturn(expectedResult).when(userStatusRepository).findByStatus(any(UserStatusEnum.class));
@@ -40,7 +36,7 @@ public class UserStatusServiceTest {
     }
 
     @Test
-    public void testFindOrThrowWhenTypeNotFound() {
+    public void testFindOrThrowWhenStatusNotFound() {
         doReturn(null).when(userStatusRepository).findByStatus(any(UserStatusEnum.class));
 
         assertThrows(NotFoundException.class, () -> sut.findOrThrow(UserStatusEnum.NEW));
