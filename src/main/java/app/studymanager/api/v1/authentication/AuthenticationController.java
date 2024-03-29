@@ -5,12 +5,12 @@ import app.studymanager.modules.user.User;
 import app.studymanager.modules.user.UserService;
 import app.studymanager.modules.user.validationcode.UserValidationCode;
 import app.studymanager.modules.user.validationcode.UserValidationCodeService;
-import app.studymanager.shared.service.mail.MailService;
+import app.studymanager.shared.service.mail.templates.validationcode.ValidationCodeMailTemplate;
 import app.studymanager.shared.util.ExceptionUtil;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,30 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/authentication")
+@RequiredArgsConstructor
+@Slf4j
 public class AuthenticationController implements AuthenticationOpenApi {
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
-
     private final UserService userService;
-    private final UserValidationCodeService userValidationCodeService;
-    private final MailService mailService;
 
-    public AuthenticationController(
-            UserService userService,
-            UserValidationCodeService userValidationCodeService, MailService mailService
-    ) {
-        this.userService = userService;
-        this.userValidationCodeService = userValidationCodeService;
-        this.mailService = mailService;
-    }
+    private final UserValidationCodeService userValidationCodeService;
+
+    private final ValidationCodeMailTemplate mailTemplate;
 
     @PostMapping
     @Transactional
     public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDTO dto) {
-        logger.info(AuthenticationLogger.SEND_VALIDATION_CODE);
+        log.info(AuthenticationLogger.SEND_VALIDATION_CODE);
         try {
             User user = userService.findOrCreateByEmail(dto.getEmail());
             UserValidationCode userValidationCode = userValidationCodeService.create(user);
-            mailService.sendValidationCode(user.getEmail(), userValidationCode.getCode());
+            mailTemplate.sendValidationCode(user.getEmail(), userValidationCode.getCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception exception) {
             throw ExceptionUtil.handle(exception, AuthenticationLogger.SEND_VALIDATION_CODE_ERROR);

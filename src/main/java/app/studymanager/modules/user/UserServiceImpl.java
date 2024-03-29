@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,12 +34,7 @@ public class UserServiceImpl implements UserService {
         logger.info(UserLogger.FIND_BY_EMAIL);
         try {
             User foundUser = userRepository.findByEmail(email);
-
-            if (isNull(foundUser)) {
-                return this.create(email);
-            }
-
-            return foundUser;
+            return nonNull(foundUser) ? foundUser : this.create(email);
         } catch (Exception exception) {
             throw ExceptionUtil.handle(exception, UserLogger.FIND_BY_EMAIL_ERROR);
         }

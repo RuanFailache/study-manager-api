@@ -1,5 +1,5 @@
 package app.studymanager.shared.service.mail;
 
 public interface MailService {
-    void sendValidationCode(String email, String validationCode);
+    void send(String to, String subject, String text);
 }
