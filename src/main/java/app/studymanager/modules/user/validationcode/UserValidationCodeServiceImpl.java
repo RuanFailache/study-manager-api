@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserValidationCodeServiceImpl implements UserValidationCodeService {
-    private static final Logger logger = LoggerFactory.getLogger(UserValidationCodeServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserValidationCodeService.class);
 
     private final UserHistoryService userHistoryService;
     private final UserValidationCodeRepository userValidationCodeRepository;
@@ -29,14 +29,15 @@ public class UserValidationCodeServiceImpl implements UserValidationCodeService 
     }
 
     @Transactional
-    public void create(User user) {
+    public UserValidationCode create(User user) {
         logger.info(UserValidationCodeLogger.CREATE);
         try {
             UserValidationCode validationCode = userValidationCodeFactory.create(user);
             userValidationCodeRepository.save(validationCode);
             userHistoryService.insert(user, HistoryResponsible.SYSTEM, UserHistoryMessage.CREATE_VALIDATION_CODE);
+            return validationCode;
         } catch (Exception exception) {
-            logger.error(UserValidationCodeLogger.CREATE_ERROR);
+            logger.error(UserValidationCodeLogger.CREATE_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserValidationCodeLogger.CREATE_ERROR);
         }
     }

@@ -13,3 +13,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+mail:
+  address: ${MAIL_ADDRESS}
+  apikey: ${SENDGRID_API_KEY}

@@ -13,7 +13,7 @@ import static java.util.Objects.isNull;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final UserHistoryService userHistoryService;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
             return foundUser;
         } catch (Exception exception) {
-            logger.error(UserLogger.FIND_BY_EMAIL_ERROR);
+            logger.error(UserLogger.FIND_BY_EMAIL_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserLogger.FIND_BY_EMAIL_ERROR);
         }
     }
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
             userHistoryService.insert(savedUser, HistoryResponsible.SYSTEM, UserHistoryMessage.CREATE_USER);
             return savedUser;
         } catch (Exception exception) {
-            logger.error(UserLogger.CREATE_ERROR);
+            logger.error(UserLogger.CREATE_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserLogger.CREATE_ERROR);
         }
     }

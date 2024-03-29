@@ -10,7 +10,7 @@ import static java.util.Objects.isNull;
 
 @Service
 public class UserTypeServiceImpl implements UserTypeService {
-    private static final Logger logger = LoggerFactory.getLogger(UserTypeServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserTypeService.class);
 
     private final UserTypeRepository userTypeRepository;
 
@@ -29,7 +29,7 @@ public class UserTypeServiceImpl implements UserTypeService {
 
             return foundType;
         } catch (Exception exception) {
-            logger.error(UserTypeLogger.FIND_OR_THROW_ERROR);
+            logger.error(UserTypeLogger.FIND_OR_THROW_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserTypeLogger.FIND_OR_THROW_ERROR);
         }
     }

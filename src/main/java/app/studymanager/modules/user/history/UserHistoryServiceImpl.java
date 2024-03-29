@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserHistoryServiceImpl implements UserHistoryService {
-    private static final Logger logger = LoggerFactory.getLogger(UserHistoryServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserHistoryService.class);
 
     private final UserHistoryRepository userHistoryRepository;
 
@@ -25,7 +25,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
             history.insert(user, responsible, message);
             userHistoryRepository.save(history);
         } catch (Exception exception) {
-            logger.error(UserHistoryLogger.INSERT_ERROR);
+            logger.error(UserHistoryLogger.INSERT_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserHistoryLogger.INSERT_ERROR);
         }
     }

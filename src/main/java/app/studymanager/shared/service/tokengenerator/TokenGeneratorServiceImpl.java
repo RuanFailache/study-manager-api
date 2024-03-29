@@ -9,7 +9,7 @@ import java.util.Random;
 
 @Service
 public class TokenGeneratorServiceImpl implements TokenGeneratorService {
-    private static final Logger logger = LoggerFactory.getLogger(TokenGeneratorServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TokenGeneratorService.class);
 
     public String generateValidationCode() {
         logger.info(TokenGeneratorLogger.GENERATE_VALIDATION_CODE);
@@ -18,7 +18,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
             long codeAsNumber = random.nextLong(999999);
             return String.valueOf(codeAsNumber);
         } catch (Exception exception) {
-            logger.error(TokenGeneratorLogger.GENERATE_VALIDATION_CODE_ERROR);
+            logger.error(TokenGeneratorLogger.GENERATE_VALIDATION_CODE_ERROR, exception);
             throw ExceptionUtil.handle(exception, TokenGeneratorLogger.GENERATE_VALIDATION_CODE_ERROR);
         }
     }

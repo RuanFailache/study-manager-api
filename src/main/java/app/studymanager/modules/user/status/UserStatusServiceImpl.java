@@ -10,7 +10,7 @@ import static java.util.Objects.isNull;
 
 @Service
 public class UserStatusServiceImpl implements UserStatusService {
-    private static final Logger logger = LoggerFactory.getLogger(UserStatusServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserStatusService.class);
 
     private final UserStatusRepository userStatusRepository;
 
@@ -29,7 +29,7 @@ public class UserStatusServiceImpl implements UserStatusService {
 
             return foundStatus;
         } catch (Exception exception) {
-            logger.error(UserStatusLogger.FIND_OR_THROW_ERROR);
+            logger.error(UserStatusLogger.FIND_OR_THROW_ERROR, exception);
             throw ExceptionUtil.handle(exception, UserStatusLogger.FIND_OR_THROW_ERROR);
         }
     }
