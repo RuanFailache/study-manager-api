@@ -11,6 +11,6 @@ public class MailServiceDevelopmentImpl implements MailService {
     private static final Logger logger = LoggerFactory.getLogger(MailService.class);
 
     public void sendValidationCode(String email, String validationCode) {
-        logger.info(MailLogger.DEVELOPMENT, email);
+        logger.info(MailLogger.DEVELOPMENT, email, validationCode);
     }
 }
