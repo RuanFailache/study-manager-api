@@ -1,7 +1,6 @@
 package app.studymanager.modules.user.history;
 
 import app.studymanager.modules.user.User;
-import app.studymanager.shared.util.ExceptionUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +16,8 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 
     @Transactional
     public void insert(User user, String responsible, String message) {
-        log.info(UserHistoryLogger.INSERT);
-        try {
-            UserHistory history = userHistoryFactory.insert(user, responsible, message);
-            userHistoryRepository.save(history);
-        } catch (Exception exception) {
-            throw ExceptionUtil.handle(exception, UserHistoryLogger.INSERT_ERROR);
-        }
+        log.info("Inserindo informações do usuário no histórico");
+        UserHistory history = userHistoryFactory.insert(user, responsible, message);
+        userHistoryRepository.save(history);
     }
 }

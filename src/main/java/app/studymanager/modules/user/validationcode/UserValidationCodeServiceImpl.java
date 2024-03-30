@@ -1,8 +1,6 @@
 package app.studymanager.modules.user.validationcode;
 
 import app.studymanager.modules.user.User;
-import app.studymanager.shared.exception.NotFoundException;
-import app.studymanager.shared.exception.UnauthorizedException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,17 +29,17 @@ public class UserValidationCodeServiceImpl implements UserValidationCodeService 
         var foundValidationCode = userValidationCodeRepository.findByUser(user);
 
         if (foundValidationCode.isEmpty()) {
-            throw new NotFoundException("No validation code found for this user");
+            throw UserValidationCodeException.notFound();
         }
 
         var validationCode = foundValidationCode.get();
 
         if (!validationCode.getCode().equals(code)) {
-            throw new UnauthorizedException("Invalid validation code");
+            throw UserValidationCodeException.invalid();
         }
 
         if (validationCode.isExpired()) {
-            throw new UnauthorizedException("Validation code expired");
+            throw UserValidationCodeException.expired();
         }
 
         userValidationCodeRepository.delete(validationCode);
