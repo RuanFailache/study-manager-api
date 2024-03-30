@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static java.util.Objects.isNull;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -30,11 +28,13 @@ public class UserValidationCodeServiceImpl implements UserValidationCodeService 
     public void validate(User user, String code) {
         log.info(UserValidationCodeLogger.VALIDATE);
 
-        UserValidationCode validationCode = userValidationCodeRepository.findByUser(user);
+        var foundValidationCode = userValidationCodeRepository.findByUser(user);
 
-        if (isNull(validationCode)) {
+        if (foundValidationCode.isEmpty()) {
             throw new NotFoundException("No validation code found for this user");
         }
+
+        var validationCode = foundValidationCode.get();
 
         if (!validationCode.getCode().equals(code)) {
             throw new UnauthorizedException("Invalid validation code");
