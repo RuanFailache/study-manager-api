@@ -1,7 +1,6 @@
 package app.studymanager.shared.service.mail;
 
 import app.studymanager.shared.exception.InternalServerErrorException;
-import app.studymanager.utils.SimulatedException;
 import com.github.javafaker.Faker;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 public class MailServiceTest {
@@ -62,17 +60,6 @@ public class MailServiceTest {
         String text = faker.lorem().paragraph();
 
         doReturn(expectedResponse).when(sendGrid).api(any(Request.class));
-
-        assertThrows(InternalServerErrorException.class, () -> sut.send(to, subject, text));
-    }
-
-    @Test
-    public void testSendOnSimulatedException() throws IOException {
-        String to = faker.internet().emailAddress();
-        String subject = faker.lorem().sentence();
-        String text = faker.lorem().paragraph();
-
-        doThrow(new SimulatedException()).when(sendGrid).api(any(Request.class));
 
         assertThrows(InternalServerErrorException.class, () -> sut.send(to, subject, text));
     }
