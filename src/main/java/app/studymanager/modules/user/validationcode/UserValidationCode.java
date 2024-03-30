@@ -35,9 +35,7 @@ public class UserValidationCode {
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime createdAt;
 
-    public void create(User user, String code) {
-        setCode(code);
-        setUser(user);
-        setExpiresAt(OffsetDateTime.now().plusMinutes(5));
+    public boolean isExpired() {
+        return expiresAt.isBefore(OffsetDateTime.now());
     }
 }

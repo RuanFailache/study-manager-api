@@ -1,8 +1,6 @@
 package app.studymanager.modules.user;
 
-import app.studymanager.modules.user.history.UserHistoryService;
-import app.studymanager.shared.exception.InternalServerErrorException;
-import app.studymanager.utils.SimulatedException;
+import app.studymanager.shared.exception.NotFoundException;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -24,9 +23,6 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private UserHistoryService userHistoryService;
 
     @Mock
     private UserFactory userFactory;
@@ -39,60 +35,67 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testFindOrThrowByEmailWhenUserNotFound() {
+        String testEmail = faker.internet().emailAddress();
+
+        doReturn(Optional.empty()).when(userRepository).findByEmail(testEmail);
+
+        assertThrows(NotFoundException.class, () -> sut.findOrThrowByEmail(testEmail));
+    }
+
+    @Test
+    public void testFindOrThrowByEmailWhenUserFound() {
+        String testEmail = faker.internet().emailAddress();
+
+        User expectedUser = new User();
+
+        doReturn(Optional.of(expectedUser)).when(userRepository).findByEmail(testEmail);
+
+        var result = sut.findOrThrowByEmail(testEmail);
+
+        assertNotNull(result);
+        assertEquals(expectedUser, result);
+    }
+
+    @Test
+    public void testFindByEmailWhenUserNotFound() {
+        String testEmail = faker.internet().emailAddress();
+
+        doReturn(Optional.empty()).when(userRepository).findByEmail(testEmail);
+
+        var result = sut.findByEmail(testEmail);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testFindByEmailWhenUserFound() {
+        String testEmail = faker.internet().emailAddress();
+
+        User expectedUser = new User();
+
+        doReturn(Optional.of(expectedUser)).when(userRepository).findByEmail(testEmail);
+
+        var result = sut.findByEmail(testEmail);
+
+        assertNotNull(result);
+        assertTrue(result.isPresent());
+        assertEquals(expectedUser, result.get());
+    }
+
+    @Test
     public void testCreate() {
         var expectedResult = new User();
 
         String testEmail = faker.internet().emailAddress();
 
-        doReturn(new User()).when(userFactory).create(anyString());
+        doReturn(expectedResult).when(userFactory).create(anyString());
         doReturn(expectedResult).when(userRepository).save(any(User.class));
 
         var result = sut.create(testEmail);
 
         assertNotNull(result);
         assertEquals(expectedResult, result);
-    }
-
-    @Test
-    public void testCreateWhenThrowsException() {
-        doThrow(new SimulatedException()).when(userFactory).create(anyString());
-
-        assertThrows(InternalServerErrorException.class, () -> sut.create(anyString()));
-    }
-
-    @Test
-    public void testFindOrCreateByEmailWhenUserNotFound() {
-        var expectedResult = new User();
-
-        String testEmail = faker.internet().emailAddress();
-
-        doReturn(null).when(userRepository).findByEmail(testEmail);
-        doReturn(expectedResult).when(userFactory).create(anyString());
-        doReturn(expectedResult).when(userRepository).save(any(User.class));
-
-        var result = sut.findOrCreateByEmail(testEmail);
-
-        assertNotNull(result);
-        assertEquals(expectedResult, result);
-    }
-
-    @Test
-    public void testFindOrCreateByEmailWhenUserFound() {
-        String testEmail = faker.internet().emailAddress();
-
-        User expectedUser = new User();
-
-        doReturn(expectedUser).when(userRepository).findByEmail(testEmail);
-
-        User result = sut.findOrCreateByEmail(testEmail);
-
-        assertEquals(expectedUser, result);
-    }
-
-    @Test
-    public void testFindOrCreateByEmailWhenThrowsException() {
-        doThrow(new SimulatedException()).when(userRepository).findByEmail(anyString());
-
-        assertThrows(InternalServerErrorException.class, () -> sut.findOrCreateByEmail(anyString()));
     }
 }
