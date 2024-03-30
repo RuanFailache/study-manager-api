@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -60,7 +61,7 @@ public class UserValidationCodeServiceTest {
         testValidationCode.setCode(testCode);
         testValidationCode.setExpiresAt(OffsetDateTime.now().plusMinutes(3));
 
-        doReturn(testValidationCode).when(userValidationCodeRepository).findByUser(testUser);
+        doReturn(Optional.of(testValidationCode)).when(userValidationCodeRepository).findByUser(testUser);
 
         sut.validate(testUser, testCode);
 
@@ -72,7 +73,7 @@ public class UserValidationCodeServiceTest {
         User testUser = new User();
         String testCode = faker.number().digits(6);
 
-        doReturn(null).when(userValidationCodeRepository).findByUser(testUser);
+        doReturn(Optional.empty()).when(userValidationCodeRepository).findByUser(testUser);
 
         assertThrows(NotFoundException.class, () -> sut.validate(testUser, testCode));
     }
@@ -85,7 +86,7 @@ public class UserValidationCodeServiceTest {
         UserValidationCode testValidationCode = new UserValidationCode();
         testValidationCode.setCode(faker.number().digits(6));
 
-        doReturn(testValidationCode).when(userValidationCodeRepository).findByUser(testUser);
+        doReturn(Optional.of(testValidationCode)).when(userValidationCodeRepository).findByUser(testUser);
 
         assertThrows(UnauthorizedException.class, () -> sut.validate(testUser, testCode));
     }
@@ -99,7 +100,7 @@ public class UserValidationCodeServiceTest {
         testValidationCode.setCode(testCode);
         testValidationCode.setExpiresAt(OffsetDateTime.now().minusMinutes(10));
 
-        doReturn(testValidationCode).when(userValidationCodeRepository).findByUser(testUser);
+        doReturn(Optional.of(testValidationCode)).when(userValidationCodeRepository).findByUser(testUser);
 
         assertThrows(UnauthorizedException.class, () -> sut.validate(testUser, testCode));
     }

@@ -18,15 +18,15 @@ public class UserValidationCodeServiceImpl implements UserValidationCodeService 
 
     @Transactional
     public UserValidationCode create(User user) {
-        log.info(UserValidationCodeLogger.CREATE);
+        log.info("Criando um código de validação para o usuário");
         userValidationCodeRepository.deleteByUser(user);
-        UserValidationCode validationCode = userValidationCodeFactory.create(user);
+        var validationCode = userValidationCodeFactory.create(user);
         return userValidationCodeRepository.save(validationCode);
     }
 
     @Transactional
     public void validate(User user, String code) {
-        log.info(UserValidationCodeLogger.VALIDATE);
+        log.info("Validando o código de validação do usuário");
 
         var foundValidationCode = userValidationCodeRepository.findByUser(user);
 
