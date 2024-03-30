@@ -1,7 +1,6 @@
 package app.studymanager.shared.service.mail;
 
-import app.studymanager.shared.exception.InternalServerErrorException;
-import app.studymanager.shared.util.ExceptionUtil;
+import app.studymanager.shared.exception.HttpRequestException;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -24,17 +23,20 @@ public class MailServiceImpl implements MailService {
     private final SendGrid sendGrid;
 
     public void send(String to, String subject, String text) {
-        log.info(MailLogger.SEND_MAIL);
+        log.info("Enviando email");
         try {
             Mail mail = getMail(to, subject, text);
             Request request = getRequest(mail);
             Response response = sendGrid.api(request);
 
             if (response.getStatusCode() < 200 || response.getStatusCode() >= 300) {
-                throw new InternalServerErrorException(MailLogger.SEND_MAIL_ERROR);
+                throw MailException.fail();
             }
+        } catch (HttpRequestException exception) {
+            throw exception;
         } catch (Exception exception) {
-            throw ExceptionUtil.handle(exception, MailLogger.SEND_MAIL_ERROR);
+            log.error("Falha ao enviar email", exception);
+            throw MailException.fail();
         }
     }
 

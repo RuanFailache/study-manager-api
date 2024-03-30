@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 @Profile("development")
 public class DevelopmentValidationCodeMailTemplate implements ValidationCodeMailTemplate {
     public void sendValidationCode(String email, String validationCode) {
-        log.info(ValidationCodeMailLogger.DEVELOPMENT, validationCode, email);
+        log.info("Enviando código {} para {}", validationCode, email);
     }
 }
