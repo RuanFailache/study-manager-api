@@ -7,7 +7,6 @@ import app.studymanager.modules.user.User;
 import app.studymanager.modules.user.UserService;
 import app.studymanager.modules.user.history.UserHistoryMessage;
 import app.studymanager.modules.user.history.UserHistoryService;
-import app.studymanager.modules.user.validationcode.UserValidationCode;
 import app.studymanager.modules.user.validationcode.UserValidationCodeService;
 import app.studymanager.shared.constants.HistoryResponsible;
 import app.studymanager.shared.service.jwt.JwtService;
@@ -42,19 +41,14 @@ public class AuthenticationController implements AuthenticationOpenApi {
     @Transactional
     public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDTO requestDTO) {
         log.info("Enviando código de validação");
-
-        User user = userService.findByEmail(requestDTO.getEmail()).orElseGet(() -> {
+        var user = userService.findByEmail(requestDTO.getEmail()).orElseGet(() -> {
             User createdUser = userService.create(requestDTO.getEmail());
             userHistoryService.insert(createdUser, HistoryResponsible.SYSTEM, UserHistoryMessage.CREATE_USER);
             return createdUser;
         });
-
-        UserValidationCode validationCode = userValidationCodeService.create(user);
-
+        var validationCode = userValidationCodeService.create(user);
         userHistoryService.insert(user, HistoryResponsible.SYSTEM, UserHistoryMessage.CREATE_VALIDATION_CODE);
-
         mailTemplate.sendValidationCode(user.getEmail(), validationCode.getCode());
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -62,15 +56,11 @@ public class AuthenticationController implements AuthenticationOpenApi {
     @Transactional
     public ResponseEntity<CredentialsResponseDTO> validate(@Valid @RequestBody ValidateCodeRequestDTO requestDTO) {
         log.info("Validando código de validação");
-
-        User user = userService.findOrThrowByEmail(requestDTO.getEmail());
-
+        var user = userService.findOrThrowByEmail(requestDTO.getEmail());
         userValidationCodeService.validate(user, requestDTO.getCode());
-
-        String token = jwtService.generate(user);
-
-        CredentialsResponseDTO responseDTO = new CredentialsResponseDTO(token);
-
+        var token = jwtService.generate(user);
+        userHistoryService.insert(user, HistoryResponsible.SYSTEM, UserHistoryMessage.LOGIN);
+        var responseDTO = new CredentialsResponseDTO(token);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 }

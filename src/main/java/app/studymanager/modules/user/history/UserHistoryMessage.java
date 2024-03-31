@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 public class UserHistoryMessage {
     public static final String CREATE_USER = "Usuário criado";
     public static final String CREATE_VALIDATION_CODE = "Usuário solicitou um código de validação";
+    public static final String LOGIN = "Usuário logou no sistema";
 }
