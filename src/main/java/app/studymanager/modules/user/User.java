@@ -1,7 +1,6 @@
 package app.studymanager.modules.user;
 
 import app.studymanager.modules.user.history.UserHistory;
-import app.studymanager.modules.user.session.UserSession;
 import app.studymanager.modules.user.status.UserStatus;
 import app.studymanager.modules.user.subject.UserSubject;
 import app.studymanager.modules.user.type.UserType;
@@ -57,9 +56,6 @@ public class User extends AbstractAggregateRoot<User> {
 
     @OneToMany(mappedBy = "user")
     private Set<UserHistory> histories = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<UserSession> sessions = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Set<UserSubject> subjects = new HashSet<>();
