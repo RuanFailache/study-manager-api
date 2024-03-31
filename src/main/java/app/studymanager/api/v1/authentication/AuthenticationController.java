@@ -10,6 +10,7 @@ import app.studymanager.modules.user.history.UserHistoryService;
 import app.studymanager.modules.user.validationcode.UserValidationCode;
 import app.studymanager.modules.user.validationcode.UserValidationCodeService;
 import app.studymanager.shared.constants.HistoryResponsible;
+import app.studymanager.shared.service.jwt.JwtService;
 import app.studymanager.shared.service.mail.templates.validationcode.ValidationCodeMailTemplate;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -35,10 +36,12 @@ public class AuthenticationController implements AuthenticationOpenApi {
 
     private final ValidationCodeMailTemplate mailTemplate;
 
+    private final JwtService jwtService;
+
     @PostMapping
     @Transactional
     public ResponseEntity<Void> sendValidationCode(@Valid @RequestBody AskValidationCodeRequestDTO requestDTO) {
-        log.info(AuthenticationLogger.SEND_VALIDATION_CODE);
+        log.info("Enviando código de validação");
 
         User user = userService.findByEmail(requestDTO.getEmail()).orElseGet(() -> {
             User createdUser = userService.create(requestDTO.getEmail());
@@ -58,12 +61,16 @@ public class AuthenticationController implements AuthenticationOpenApi {
     @PostMapping("validate")
     @Transactional
     public ResponseEntity<CredentialsResponseDTO> validate(@Valid @RequestBody ValidateCodeRequestDTO requestDTO) {
-        log.info(AuthenticationLogger.VALIDATE);
+        log.info("Validando código de validação");
 
         User user = userService.findOrThrowByEmail(requestDTO.getEmail());
 
         userValidationCodeService.validate(user, requestDTO.getCode());
 
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        String token = jwtService.generate(user);
+
+        CredentialsResponseDTO responseDTO = new CredentialsResponseDTO(token);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 }
