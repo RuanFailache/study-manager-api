@@ -1,10 +1,9 @@
 package app.studymanager.modules.user;
 
+import app.studymanager.modules.course.Course;
 import app.studymanager.modules.user.history.UserHistory;
 import app.studymanager.modules.user.status.UserStatus;
-import app.studymanager.modules.user.subject.UserSubject;
 import app.studymanager.modules.user.type.UserType;
-import app.studymanager.modules.user.validationcode.UserValidationCode;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -52,14 +51,8 @@ public class User extends AbstractAggregateRoot<User> {
     private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserHistory> users = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
     private Set<UserHistory> histories = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserSubject> subjects = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<UserValidationCode> validationCodes = new HashSet<>();
+    private Set<Course> courses = new HashSet<>();
 }

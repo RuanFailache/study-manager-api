@@ -3,7 +3,7 @@ package app.studymanager.modules.studyday;
 import app.studymanager.modules.studyday.history.StudyDayHistory;
 import app.studymanager.modules.studyday.status.StudyDayStatus;
 import app.studymanager.modules.studyday.subject.StudyDaySubject;
-import app.studymanager.modules.studyday.user.StudyDayUser;
+import app.studymanager.modules.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,7 +27,11 @@ public class StudyDay extends AbstractAggregateRoot<StudyDay> {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_study_days_status", nullable = false)
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "id_status", nullable = false)
     private StudyDayStatus status;
 
     @Column(name = "name", nullable = false)
@@ -49,9 +53,6 @@ public class StudyDay extends AbstractAggregateRoot<StudyDay> {
 
     @OneToMany(mappedBy = "studyDay")
     private Set<StudyDaySubject> subjects = new HashSet<>();
-
-    @OneToMany(mappedBy = "studyDay")
-    private Set<StudyDayUser> users = new HashSet<>();
 
     @OneToMany(mappedBy = "studyDay")
     private Set<StudyDayHistory> histories = new HashSet<>();

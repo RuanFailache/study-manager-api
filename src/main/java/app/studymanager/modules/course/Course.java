@@ -1,34 +1,31 @@
-package app.studymanager.modules.subject;
+package app.studymanager.modules.course;
 
-import app.studymanager.modules.subject.level.SubjectLevel;
-import app.studymanager.modules.subject.priority.SubjectPriority;
+import app.studymanager.modules.course.subject.CourseSubject;
+import app.studymanager.modules.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tab_subjects")
-public class Subject extends AbstractAggregateRoot<Subject> {
+@Table(name = "tab_courses")
+public class Course {
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "id_subject", nullable = false)
+    @Column(name = "id_course", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_subject_level", nullable = false)
-    private SubjectLevel level;
-
-    @ManyToOne
-    @JoinColumn(name = "id_subject_priority", nullable = false)
-    private SubjectPriority priority;
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -42,4 +39,7 @@ public class Subject extends AbstractAggregateRoot<Subject> {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime updatedAt;
+
+    @OneToMany(mappedBy = "course")
+    private Set<CourseSubject> subjects = new HashSet<>();
 }
